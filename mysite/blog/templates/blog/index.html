@@ -1,0 +1,22 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+</head>
+<body>
+    {% if latest_post_list %}
+        <ul>
+            {% for post in latest_post_list %}
+                <li><a href={% url 'blog:detail' post.id %}>{{ post.topic_text }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No posts are available.</p>
+    {% endif %}
+
+</body>
+</html>

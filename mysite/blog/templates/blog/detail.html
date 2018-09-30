@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>{{ post.topic_text }}</h1>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>
+    {% else %}<p>{{ post.content_text }}</p>
+    {% endif %}
+    <form action="{% url 'blog:vote' post.id %}" method="Post">
+        {% csrf_token %}
+
+        <input type="submit" value="( {{ post.vote }} ) Upvote">
+    </form>
+</body>
+</html>
