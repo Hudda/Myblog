@@ -5,7 +5,8 @@ from django.db.models import F
 from django.views import generic
 from django.utils import timezone
 
-from .models import Post
+from .models import Comment, Post
+from .forms import CommentForm
 
 class IndexView(generic.ListView):
     template_name = 'blog/index.html'
@@ -30,3 +31,17 @@ def vote(request, post_id):
     post.vote = F('vote') + 1
     post.save()
     return HttpResponseRedirect(reverse('blog:detail', args=(post_id,)))
+
+def get_comment(request, post_id):
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.save()
+            return HttpResponseRedirect(reverse('blog:comment', args=(post_id,)))
+    else:
+        form = CommentForm()
+
+    return render(request, 'blog/detail.html', {'form': form})
