@@ -33,6 +33,7 @@ def vote(request, post_id):
     return HttpResponseRedirect(reverse('blog:detail', args=(post_id,)))
 
 def get_comment(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
     if request.method == 'POST':
         form = CommentForm(request.POST)
 
@@ -40,8 +41,8 @@ def get_comment(request, post_id):
             comment = form.save(commit=False)
             comment.post = post
             comment.save()
-            return HttpResponseRedirect(reverse('blog:comment', args=(post_id,)))
+            return HttpResponseRedirect(reverse('blog:detail', args=(post_id,)))
     else:
         form = CommentForm()
 
-    return render(request, 'blog/detail.html', {'form': form})
+    return render(request, 'blog/comment.html', {'form': form})
