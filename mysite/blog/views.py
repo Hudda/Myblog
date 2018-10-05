@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.db.models import F
@@ -6,7 +6,7 @@ from django.views import generic
 from django.utils import timezone
 
 from .models import Comment, Post
-from .forms import CommentForm
+from .forms import CommentForm, PostForm
 
 class IndexView(generic.ListView):
     template_name = 'blog/index.html'
@@ -45,4 +45,19 @@ def get_comment(request, post_id):
     else:
         form = CommentForm()
 
-    return render(request, 'blog/comment.html', {'form': form})
+    return render(request, 'blog/detail.html', {'form': form, 'post':post})
+
+def add_post(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.pub_date = timezone.now()
+            post.save()
+            return redirect('blog:detail', pk=post.pk)
+    else:
+        form = PostForm()
+
+    return render(request, 'blog/post_new.html', {'form': form})

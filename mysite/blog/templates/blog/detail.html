@@ -7,7 +7,11 @@
 <body>
     <h1>{{ post.topic_text }}</h1>
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>
-    {% else %}<p>{{ post.content_text }}</p>
+    {% else %}
+    {% if post.image %}
+    <img src="{{ post.image.url }}" alt="img">
+    {% endif %}
+    <p>{{ post.content_text }}</p>
     {% endif %}
     <form action="{% url 'blog:vote' post.id %}" method="Post">
         {% csrf_token %}
@@ -16,7 +20,14 @@
     </form>
     <hr>
     <h1>Comments: </h1>
-    <a href={% url 'blog:comment' post.id %}>Leave Reply</a>
+    <a href="{% url 'blog:comment' post.id %}">Leave a reply</a>
+    <form method="Post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if form %}
+        <input type="submit" value="Comment">
+        {% endif %}
+    </form>
     {% for comment in post.comments.all %}
         <div class="comment">
             {% if comment.was_published_recently %}

@@ -4,9 +4,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Blog</title>
 </head>
 <body>
+    <h1>Blogger's Blog</h1>
+    <a href={% url 'blog:add_post' %}>Add Post</a>
     {% if latest_post_list %}
         <ul>
             {% for post in latest_post_list %}
