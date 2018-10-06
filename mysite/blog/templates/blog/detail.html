@@ -9,12 +9,15 @@
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>
     {% else %}
     <a href="{% url 'blog:post_edit' post.pk %}">Edit</a>
+    {% if post.pub_date == None %}
     <a href="{% url 'blog:publish_post' post.pk %}">Publish</a>
+    {% endif %}
     <a href="{% url 'blog:post_delete' post.pk %}">Delete</a>
     {% if post.image %}
     <img src="{{ post.image.url }}" alt="img">
     {% endif %}
-    <p>{{ post.content_text }}</p>
+    <br>
+    {{ post.content_text|safe }}
     {% endif %}
     <form action="{% url 'blog:vote' post.id %}" method="Post">
         {% csrf_token %}

@@ -6,8 +6,7 @@ from django.utils import timezone
 class Post(models.Model):
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     topic_text = models.CharField(max_length=200, null=False)
-    image = models.ImageField(null=True, blank=True)
-    content_text = models.TextField(null=False)
+    content_text = models.TextField()
     vote = models.IntegerField(default=0)
     created_date = models.DateTimeField(default=timezone.now)
     pub_date = models.DateTimeField(null=True)
