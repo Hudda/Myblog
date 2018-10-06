@@ -13,7 +13,7 @@ class Post(models.Model):
     pub_date = models.DateTimeField(null=True)
 
     def publish(self):
-        self.pub_date = self.timezone.now()
+        self.pub_date = timezone.now()
         self.save()
 
     def was_published_recently(self):

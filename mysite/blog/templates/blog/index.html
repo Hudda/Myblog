@@ -9,6 +9,7 @@
 <body>
     <h1>Blogger's Blog</h1>
     <a href={% url 'blog:add_post' %}>Add Post</a>
+    <a href="{% url 'blog:draft' %}">Drafts</a>
     <href
     {% if latest_post_list %}
         <ul>

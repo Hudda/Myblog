@@ -9,6 +9,7 @@
         <ul>
             {% for post in latest_draft_list %}
                 {{ post.created_date }}
+
                 <li><a href={% url 'blog:detail' post.id %}>{{ post.topic_text }}</a></li>
             {% endfor %}
         </ul>

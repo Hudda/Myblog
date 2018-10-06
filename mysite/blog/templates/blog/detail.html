@@ -9,6 +9,8 @@
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>
     {% else %}
     <a href="{% url 'blog:post_edit' post.pk %}">Edit</a>
+    <a href="{% url 'blog:publish_post' post.pk %}">Publish</a>
+    <a href="{% url 'blog:post_delete' post.pk %}">Delete</a>
     {% if post.image %}
     <img src="{{ post.image.url }}" alt="img">
     {% endif %}
