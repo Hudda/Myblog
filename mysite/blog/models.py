@@ -9,7 +9,12 @@ class Post(models.Model):
     image = models.ImageField(null=True, blank=True)
     content_text = models.TextField(null=False)
     vote = models.IntegerField(default=0)
-    pub_date = models.DateTimeField(default=timezone.now)
+    created_date = models.DateTimeField(default=timezone.now)
+    pub_date = models.DateTimeField(null=True)
+
+    def publish(self):
+        self.pub_date = self.timezone.now()
+        self.save()
 
     def was_published_recently(self):
         now = timezone.now()

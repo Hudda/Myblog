@@ -23,7 +23,17 @@ class DetailView(generic.DetailView):
     template_name = 'blog/detail.html'
 
     def get_queryset(self):
-        return Post.objects.filter(pub_date__lte=timezone.now())
+        return Post.objects.filter(created_date__lte=timezone.now())
+
+
+class DraftView(generic.ListView):
+    template_name = 'blog/post_drafts.html'
+    context_object_name = 'latest_draft_list'
+
+    def get_queryset(self):
+        return Post.objects.filter(
+            pub_date__isnull=True
+        ).order_by('-created_date')
 
 
 def vote(request, post_id):
@@ -54,10 +64,25 @@ def add_post(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
+            post.save()
+            return redirect('blog:draft')
+    else:
+        form = PostForm()
+
+    return render(request, 'blog/post_edit.html', {'form': form})
+
+def edit_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
             post.pub_date = timezone.now()
             post.save()
             return redirect('blog:detail', pk=post.pk)
     else:
-        form = PostForm()
+        form = PostForm(instance=post)
 
-    return render(request, 'blog/post_new.html', {'form': form})
+    return render(request, 'blog/post_edit.html', {'form': form, 'post': post})

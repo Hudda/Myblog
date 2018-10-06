@@ -1,25 +1,19 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Blog</title>
+    <title>Title</title>
 </head>
 <body>
-    <h1>Blogger's Blog</h1>
-    <a href={% url 'blog:add_post' %}>Add Post</a>
-    <href
-    {% if latest_post_list %}
+    {% if latest_draft_list %}
         <ul>
-            {% for post in latest_post_list %}
-                {{ post.pub_date }}
+            {% for post in latest_draft_list %}
+                {{ post.created_date }}
                 <li><a href={% url 'blog:detail' post.id %}>{{ post.topic_text }}</a></li>
             {% endfor %}
         </ul>
     {% else %}
         <p>No posts are available.</p>
     {% endif %}
-
 </body>
 </html>
