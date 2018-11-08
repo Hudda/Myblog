@@ -1,0 +1,122 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+      
+    <section class="site-section py-lg">
+      <div class="container">
+        
+        <div class="row blog-entries">
+          <div class="col-md-12 col-lg-8 main-content">
+
+            <h1 class="mb-4">{{ post.topic_text }}</h1>
+            {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+            {% else %}
+            <div class="post-meta">
+                        <span class="category">{{ post.category_name }}</span>
+                        <span class="mr-2">{{ post.pub_date }} </span> &bullet;
+                        <span class="ml-2"><span class="fa fa-comments"></span> {{ post.comment_counter }}</span>
+                        {% if user.is_authenticated %}
+                        |
+                        <a href="{% url 'blog:post_edit' post.pk %}"><span class="fa fa-pencil"></span></a>
+                        <a href="{% url 'blog:post_delete' post.pk %}"><span class="fa fa-trash"></span></a>
+                        {% if post.pub_date == None %}
+                          <a href="{% url 'blog:publish_post' post.pk %}"><span class="fa fa-check"></span></a>
+                        {% endif %}
+                        {% endif %}
+                      </div>
+                <div class="row mb-5">
+                  <div class="clo-md-12 mb-4 element-animate">
+                    <img src="{{ post.picture.url }}" alt="Image placeholder" class="img-fluid">
+                  </div>
+                </div>
+            <div class="post-content-body">
+              
+                  {{ post.content_text|safe }}
+            </div>
+            {% endif %}
+
+            <div>
+              <span class="ml-2"><a href="{% url 'blog:vote' post.id %}"><span class="fa fa-thumbs-up"></span></a>{{ post.vote }}</span>
+
+            <div class="pt-5">
+              <h3 class="mb-5">{{ post.comment_counter }} Comments</h3>
+              <ul class="comment-list">
+                {% for comment in post.comments.all %}
+                <li class="comment">
+                  <div class="vcard">
+                    <img src="{% static 'blog/images/no-image-icon.png' %}" alt="Image placeholder">
+                  </div>
+                  <div class="comment-body">
+                    <h3>{{ comment.author }}</h3>
+                    <div class="meta">{{ comment.pub_date }}</div>
+                    <p>{{ comment.text|linebreaks }}</p>
+                  </div>
+                </li>
+                {% empty %}
+                  <p>No comments here yet :(</p>
+                {% endfor %}
+
+              
+              <div class="comment-form-wrap pt-5">
+                <h3 class="mb-5">
+                Leave a comment
+                </h3>
+                <form action="{% url 'blog:comment' post.id %}" method="post" class="p-5 bg-light">
+                  {% csrf_token %}
+                  {% for hidden_field in form.hidden_fields %}
+                  {{ hidden_field }}
+                  {% endfor %}
+                  {% if form.non_field_errors %}
+                  <div class="alert alert-danger" role="alert">
+                    {% for error in form.non_field_errors %}
+                      {{ error }}
+                    {% endfor %}
+                  </div>
+                  {% endif %}
+                  {% for field in form.visible_fields %}
+                  <div class="form-group">
+                    {{ field.label_tag }}
+
+                    {% if form.is_bound %}
+                      {% if field.errors %}
+                        {% render_field field class="form-control is-invalid" %}
+                        {% for error in field.errors %}
+                          <div class="invalid-feedback">
+                            {{ error }}
+                          </div>
+                        {% endfor %}
+                      {% else %}
+                        {% render_field field class="form-control is-valid" %}
+                      {% endif %}
+                    {% else %}
+                      {% render_field field class="form-control" %}
+                    {% endif %}
+
+                    {% if field.help_text %}
+                      <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                  </div>
+                  {% endfor %}
+                  {% if form %}
+                  <div class="form-group">
+                    <input type="submit" value="Post Comment" class="btn btn-primary">
+                  </div>
+                  {% endif %}
+
+                </form>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- END main-content -->
+
+            
+        </div>
+      </div>
+    </section>
+  
+{% endblock %}

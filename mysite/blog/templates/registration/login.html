@@ -1,0 +1,117 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Login</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="{% static 'blog/login/images/icons/favicon.ico' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'blog/login/vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'blog/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'blog/login/fonts/iconic/css/material-design-iconic-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'blog/login/vendor/animate/animate.css' %}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'blog/login/vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'blog/login/vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'blog/login/vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'blog/login/vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'blog/login/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'blog/login/css/main.css' %}">
+<!--===============================================================================================-->
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url('{% static 'blog/login/images/bg-01.jpg' %}');">
+			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+				<form method="post" class="login100-form validate-form">
+					<span class="login100-form-title p-b-49">
+						Login
+					</span>
+
+		
+                  	{% csrf_token %}
+                  	{% for hidden_field in form.hidden_fields %}
+                  	{{ hidden_field }}
+                  	{% endfor %}
+                  	{% if form.non_field_errors %}
+                  	<div class="alert alert-danger" role="alert">
+                      	{% for error in form.non_field_errors %}
+                      		{{ error }}
+                     	{% endfor %}
+                  	 </div>
+                  	{% endif %}
+                  	{% for field in form.visible_fields %}
+                  	<div class="form-group">
+                    	{{ field.label_tag }}
+
+                    	{% if form.is_bound %}
+                      	{% if field.errors %}
+                        {% render_field field class="form-control is-invalid" %}
+                        {% for error in field.errors %}
+                          <div class="invalid-feedback">
+                            {{ error }}
+                          </div>
+                        {% endfor %}
+                      	{% else %}
+                        {% render_field field class="form-control is-valid" %}
+                      	{% endif %}
+                    	{% else %}
+                      	{% render_field field class="form-control" %}
+                    	{% endif %}
+
+                    	{% if field.help_text %}
+                      	<small class="form-text text-muted">{{ field.help_text }}</small>
+                    	{% endif %}
+                  </div>
+                  {% endfor %}
+                  <div class="text-right p-t-8 p-b-31"></div>
+					
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn">
+								<input type="submit" value="Login" class="login100-form-bgbtn">
+							</button>
+						</div>
+					</div>
+                
+					
+				</form>
+			</div>
+		</div>
+	</div>
+	
+
+	<div id="dropDownSelect1"></div>
+	
+<!--===============================================================================================-->
+	<script src="{% static 'blog/login/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'blog/login/vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'blog/login/vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'blog/login/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'blog/login/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'blog/login/vendor/daterangepicker/moment.min.js' %}"></script>
+	<script src="{% static 'blog/login/vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'blog/login/vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'blog/login/js/main.js' %}"></script>
+
+</body>
+</html>

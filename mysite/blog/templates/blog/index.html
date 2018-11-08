@@ -1,26 +1,104 @@
+{% extends 'blog/base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Blog</title>
-</head>
-<body>
-    <h1>Blogger's Blog</h1>
-    <a href={% url 'blog:add_post' %}>Add Post</a>
-    <a href="{% url 'blog:draft' %}">Drafts</a>
-    <href
-    {% if latest_post_list %}
-        <ul>
-            {% for post in latest_post_list %}
-                {{ post.pub_date }}
-                <li><a href={% url 'blog:detail' post.id %}>{{ post.topic_text }}</a></li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No posts are available.</p>
-    {% endif %}
+{% block content %}
+  <body>
+    
 
-</body>
-</html>
+    <section class="site-section py-sm">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <h2 class="mb-4">Latest Posts</h2>
+          </div>
+        </div>
+        <div class="row blog-entries">
+          <div class="col-md-12 col-lg-8 main-content">
+            <div class="row">
+              {% if latest_post_list %}
+              {% for post in latest_post_list %}
+              <div class="col-md-6">
+                <a href="{% url 'blog:detail' post.id %}" class="blog-entry element-animate" data-animate-effect="fadeIn">
+                  <img src="{{ post.picture.url }}" alt="Image placeholder">
+                  <div class="blog-content-body">
+                    <div class="post-meta">
+                      <span class="category">{{ post.category_name }}</span>
+                      <span class="mr-2">{{ post.pub_date }} </span> &bullet;
+                      <span class="ml-2"><span class="fa fa-thumbs-up"></span> {{ post.vote }}</span>
+                      <span class="ml-2"><span class="fa fa-comments"></span> {{ post.comment_counter }}</span>
+                    </div>
+                    <h2>{{ post.topic_text }}</h2>
+                  </div>
+                </a>
+              </div>
+              {% endfor %}
+              {% else %}
+                <p>No posts are available.</p>
+              {% endif %}
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <nav aria-label="Page navigation" class="text-center">
+                  {% if is_paginated %}
+                  <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Prev</a></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="#"><span>Prev</span></a></li>
+                    {% endif %}
+                    {% for i in paginator.page_range %}
+                    {% if page_obj.number == i %}
+                    <li class="page-item active"><a class="page-link" href="#">{{ i }}</a></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="#"><span>Next</span></a></li>
+                    {% endif %}
+                  </ul>
+                  {% endif %}
+                </nav>
+              </div>
+            </div>
+
+            
+
+          </div>
+
+          <!-- END main-content -->
+
+          <div class="col-md-12 col-lg-4 sidebar">
+            <div class="sidebar-box">
+              <h3 class="heading">Popular Posts</h3>
+              <div class="post-entry-sidebar">
+                <ul>
+                  {% if popular_post_list %}
+                  {% for post in popular_post_list %}
+                  <li>
+                    <a href="{% url 'blog:detail' post.id %}">
+                      <img src="{{ post.picture.url }}" alt="Image placeholder" class="mr-4">
+                      <div class="text">
+                        <h4>{{ post.topic_text }}</h4>
+                        <div class="post-meta">
+                          <span class="mr-2">{{ post.pub_date }} </span> &bullet;
+                          <span class="ml-2"><span class="fa fa-thumbs-up"></span> {{ post.vote }}</span>
+                          <span class="ml-2"><span class="fa fa-comments"></span> {{ post.comment_counter }}</span>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  {% endfor %}
+                  {% endif %}
+                  <li>
+                </ul>
+              </div>
+            </div>
+            
+        </div>
+      </div>
+    </section>
+{% endblock %}

@@ -25,7 +25,7 @@ SECRET_KEY = 'k8ht=zea=y&0ls5*j&(b5gv-09k@pg*6@3^&)y#=*995#=beyq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.43.54', 'localhost', '127.0.0.1', 'quot.serveo.net']
 
 
 # Application definition
@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_summernote',
+    'widget_tweaks',
+    'django_cleanup',
 ]
 
 MIDDLEWARE = [
@@ -77,8 +79,12 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'myblog',
+        'USER': 'jaat',
+        'PASSWORD': '@9045845594hH',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
@@ -115,6 +121,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOGIN_REDIRECT_URL = '/blog/'
+LOGOUT_REDIRECT_URL = '/blog/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
@@ -123,3 +131,11 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+SUMMERNOTE_CONFIG = {
+    'summernote':{
+            'width': '100%'
+    }
+
+    
+}

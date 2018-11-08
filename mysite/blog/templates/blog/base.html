@@ -1,0 +1,135 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>SportsBuff</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300, 400,700" rel="stylesheet">
+    
+
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/css/bootstrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/css/animate.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/css/owl.carousel.min.css' %}">
+    
+
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/fonts/ionicons/css/ionicons.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/fonts/fontawesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/fonts/flaticon/font/flaticon.css' %}">
+
+    <!-- Theme Style -->
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/css/style.css' %}">
+  </head>
+  <body>
+        <header role="banner">
+      <div class="top-bar">
+        <div class="container">
+          <div class="row">
+            <div class="col-8 social">
+              <a href="#"><span class="fa fa-twitter"></span></a>
+              <a href="#"><span class="fa fa-facebook"></span></a>
+              <a href="#"><span class="fa fa-instagram"></span></a>
+              
+            </div>
+            {% if user.is_authenticated %}
+            <div class="col-2 social">
+              <a href="{% url 'blog:add_post' %}"><span class="fa fa-plus"></span></a>
+              <a href="{% url 'blog:draft' %}"><span class="fa fa-edit"></span></a>
+            </div>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <div class="col-2">
+              <p>Hello, {{ user.username }}!</p>
+            </div>
+            <div class="col-2">
+              <a href="{% url 'blog:logout' %}"><button type="button" class="btn btn-primary">Logout</button></a>
+            </div>
+            {% else %}
+            <div class="col-2">
+              <a href="{% url 'blog:login' %}"><button type="button" class="btn btn-primary">Login</button></a>
+            </div>
+            {% endif %}
+
+          </div>
+        </div>
+      </div>
+            <div class="container logo-wrap">
+        <div class="row pt-5">
+          <div class="col-12 text-center">
+            <a class="absolute-toggle d-block d-md-none" data-toggle="collapse" href="#navbarMenu" role="button" aria-expanded="false" aria-controls="navbarMenu"><span class="burger-lines"></span></a>
+            <h1 class="site-logo"><a href="{% url 'blog:index' %}">SportsBuff</a></h1>
+          </div>
+        </div>
+      </div>
+      
+      <nav class="navbar navbar-expand-md  navbar-light bg-light">
+        <div class="container">
+          
+         
+          <div class="collapse navbar-collapse" id="navbarMenu">
+            <ul class="navbar-nav mx-auto">
+              <li class="nav-item">
+                <a class="nav-link active" href="{% url 'blog:index' %}">Home</a>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown05">
+                  {% if categories %}
+                  {% for category in categories %}
+                  <a class="dropdown-item" href="{% url 'blog:category' category_name=category.id %}">{{ category.category_name }}</a>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'blog:about' %}">About</a>
+              </li>
+            </ul>
+            
+          </div>
+        </div
+      </nav>
+    </header>
+    <!-- END header -->
+    {% block content %}
+
+    {% endblock %}
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="row mb-5">
+          
+          
+        <div class="row">
+          <div class="col-md-12">
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+          </div>
+          <div class="col-md-12">
+            an Anshul Hudda Production
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- END footer -->
+    
+    <!-- loader -->
+    <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#f4b214"/></svg></div>
+
+    <script src="{% static 'blog/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'blog/js/jquery-migrate-3.0.0.js' %}"></script>
+    <script src="{% static 'blog/js/popper.min.js' %}"></script>
+    <script src="{% static 'blog/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'blog/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'blog/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'blog/js/jquery.stellar.min.js' %}"></script>
+
+    
+    <script src="{% static 'blog/js/main.js' %}"></script>
+</body>
+</html>
