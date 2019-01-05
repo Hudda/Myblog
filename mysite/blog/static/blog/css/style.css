@@ -615,6 +615,10 @@ header .navbar .dropdown-menu a {
   }
 }
 
+.img-fluid {
+  max-width: 100%;
+}
+
 .section-cover {
   background-size: cover;
   position: relative;
